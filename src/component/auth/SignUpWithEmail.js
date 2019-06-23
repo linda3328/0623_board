@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
+import * as authActions from '../../module/auth/actions'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 class SignUpWithEmail extends Component {
 
@@ -31,11 +34,12 @@ class SignUpWithEmail extends Component {
             return;
         }
 
-        // 이메일로 회원가입
+        this.props.authActions.signUpWithEmail(email, password);
     }
 
     render() {
         const { email, password, passwordCheck } = this.state;
+        const { isLoading } = this.props;
         return (
             <Form>
                 <Form.Field>
@@ -48,12 +52,25 @@ class SignUpWithEmail extends Component {
                 </Form.Field>
                 <Form.Field>
                     <label>비밀번호 확인</label>
-                    <input name="passwordCheck" placeholder="비밀번호 확인" value={passwordCheck} onChange={this.onHandleChange} />
+                    <input name="passwordCheck" type="password" placeholder="비밀번호 확인" value={passwordCheck} onChange={this.onHandleChange} />
                 </Form.Field>
-                <Form.Button fluid type="submit" onClick={this.onSignUpWithEmail}>회원가입</Form.Button>
+                <Form.Button
+                    loading={isLoading}
+                    fluid type="submit" onClick={this.onSignUpWithEmail}>회원가입</Form.Button>
             </Form>
         )
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        isLoading: state.auth.signUpWithEmail.isLoading,
 
-export default withRouter(SignUpWithEmail);
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        authActions: bindActionCreators(authActions, dispatch)
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUpWithEmail));
