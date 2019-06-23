@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Form, List } from 'semantic-ui-react';
 import styled from 'styled-components';
+import * as authActions from '../../module/auth/actions'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
 
 const StyledListItem = styled(List.Item)`
     &&{
@@ -36,7 +40,7 @@ class SignInWithEmail extends Component {
             return;
         }
 
-        // 이메일로 로그인
+        this.props.authActions.signInWithEmail(email, password);
     }
 
     onFindPassword = e => {
@@ -49,6 +53,7 @@ class SignInWithEmail extends Component {
 
     render() {
         const { email, password } = this.state;
+        const { isLoading } = this.props;
         return (
             <Form>
                 <Form.Field>
@@ -59,14 +64,30 @@ class SignInWithEmail extends Component {
                     <label>비밀번호</label>
                     <input name="password" type="password" placeholder="비밀번호" value={password} onChange={this.onHandleChange} />
                 </Form.Field>
-                <Form.Button fluid type="submit" onClick={this.onSignInWithEmail}>로그인</Form.Button>
+                <Form.Button fluid
+                    loading={isLoading}
+                    type="submit" onClick={this.onSignInWithEmail}>로그인</Form.Button>
                 <List>
-                    <StyledListItem onClick={this.onFindPassword}>비밀번호를 잊으셨습니까? 비밀번호 찾기</StyledListItem>
-                    <StyledListItem onClick={this.goToSignUpWithEmailPage}>회원이 아니십니까? 회원가입</StyledListItem>
+                    <StyledListItem
+                        onClick={this.onFindPassword}>비밀번호를 잊으셨습니까? 비밀번호 찾기</StyledListItem>
+                    <StyledListItem
+                        onClick={this.goToSignUpWithEmailPage}>회원이 아니십니까? 회원가입</StyledListItem>
                 </List>
             </Form>
         )
     }
 }
 
-export default withRouter(SignInWithEmail);
+const mapStateToProps = (state) => {
+    return {
+        isLoading: state.auth.signInWithEmail.isLoading,
+
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        authActions: bindActionCreators(authActions, dispatch)
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignInWithEmail));
