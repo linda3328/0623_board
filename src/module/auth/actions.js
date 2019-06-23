@@ -71,10 +71,10 @@ const signUpWithEmailRequest = createAction(types.SIGN_UP_WITH_EMAIL_REQUEST)
 const signUpWithEmailSuccess = createAction(types.SIGN_UP_WITH_EMAIL_SUCCESS)
 const signUpWithEmailFailed = createAction(types.SIGN_UP_WITH_EMAIL_FAILED)
 
-export const signUpWithEmail = () => {
+export const signUpWithEmail = (email, password) => {
     return (dispatch) => {
         dispatch(signUpWithEmailRequest());
-        authAPI.signUpWithEmail()
+        authAPI.signUpWithEmail(email, password)
             .then(() => {
                 dispatch(signUpWithEmailSuccess())
             })
