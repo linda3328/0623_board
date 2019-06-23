@@ -38,6 +38,9 @@ var firebaseConfig = {
     appId: "1:99682798042:web:3fc871172a89605b"
 };
 // Initialize Firebase 초기화
+
+
+// let isinitialized = false;
 firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged((user) => {
     store.dispatch(authActions.updateUser(user));
@@ -46,7 +49,7 @@ firebase.auth().onAuthStateChanged((user) => {
     } else {
         store.dispatch(push('/sign-in'))
     }
-
+    // isinitialized = true;
 })
 
 
