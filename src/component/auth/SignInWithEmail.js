@@ -57,7 +57,7 @@ class SignInWithEmail extends Component {
                 </Form.Field>
                 <Form.Field>
                     <label>비밀번호</label>
-                    <input name="password" placeholder="비밀번호" value={password} onChange={this.onHandleChange} />
+                    <input name="password" type="password" placeholder="비밀번호" value={password} onChange={this.onHandleChange} />
                 </Form.Field>
                 <Form.Button fluid type="submit" onClick={this.onSignInWithEmail}>로그인</Form.Button>
                 <List>
