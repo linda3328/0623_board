@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 
 import authReducer from './auth/reducer';
+import articleReducer from './article/reducer';
 
 export function configureStore(history) {
 
@@ -31,6 +32,7 @@ export function configureStore(history) {
     return createStore(
         combineReducers({
             auth: authReducer,
+            article: articleReducer,
             router: connectRouter(history)
         }),
         composed
