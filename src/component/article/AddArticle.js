@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { Form, Button, Icon } from 'semantic-ui-react';
+import { Form, Button, Icon, Message } from 'semantic-ui-react';
 import styled from 'styled-components';
-import reducer from '../../module/auth/reducer';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as articleActions from '../../module/article/actions'
+
+
 
 const InvisibleUploadButton = styled.input`
 display:none;
@@ -57,8 +61,11 @@ class AddArticle extends Component {
     onAddArticle = e => {
         const { image, content } = this.state;
         if (!image) {
+            this.props.articleActions.addArticleFailed(new Error('image require'))
+
             return
         }
+        this.props.articleActions.addArticle({ file: image.file, content })
     }
 
     onDeleteImage = e => {
@@ -69,7 +76,7 @@ class AddArticle extends Component {
     }
     render() {
         const { image, content } = this.state;
-
+        const { isLoading, error } = this.props;
         return (
             <Form>
                 <InvisibleUploadButton ref="image" type="file" onChange={this.onImageChange} />
@@ -77,10 +84,29 @@ class AddArticle extends Component {
                 {image && image.src ? <Preview src={image.src} onClick={this.onDeleteImage} /> : null}
 
                 <Form.TextArea name="content" value={content} onChange={this.onHandleChange} />
-                <Button fluid onClick={this.onAddArticle}>Add Article</Button>
-            </Form>
+                <Button
+                    loading={isLoading}
+                    fluid onClick={this.onAddArticle}>Add Article</Button>
+
+                {
+                    error && error.message ? <Message>{error.message}</Message> : null
+                }
+            </Form >
         )
     }
 }
 
-export default AddArticle;
+const mapStateToProps = (state) => {
+    return {
+        isLoading: state.article.addArticle.isLoading,
+        error: state.article.addArticle.error,
+
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        articleActions: bindActionCreators(articleActions, dispatch)
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddArticle);
