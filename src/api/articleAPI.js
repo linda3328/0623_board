@@ -14,20 +14,8 @@ export function addArticle({ file, content, userId, userDisplayName, userProfile
         .then((downloadUrl) => {
 
             const articleId = uuid.v1();
-            // // const article = new Article(
-            // //     articleId,
-            // //     downloadUrl,
-            // //     content,
-            // //     userId,
-            // //     userDisplayName,
-            // //     userProfileUrl,
-            // //     0,
-            // //     0,
-            // //     new Date(),
-            // //     new Date(),
-            // )
-            return firebase.firestore().collection('articles').doc(articleId).set({
 
+            return firebase.firestore().collection('articles').doc(articleId).set({
                 id: articleId,
                 downloadUrl,
                 content,
@@ -37,7 +25,29 @@ export function addArticle({ file, content, userId, userDisplayName, userProfile
                 likeCnt: 0,
                 commentCnt: 0,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
             });
         })
+}
+
+
+export function getArticleList(lastItem, count) {
+    const limitCount = count || 30;
+    if (lastItem) {
+
+        return firebase.firestore().collection("articles")
+            .orderBy("createdAt", "desc")
+            .startAfter(lastItem)
+            .limit(limitCount)
+            .get()
+    } else {
+        return firebase.firestore().collection("articles")
+            .orderBy("createdAt", "desc")
+            .limit(limitCount)
+            .get()
+    }
+
+
+
+
 }

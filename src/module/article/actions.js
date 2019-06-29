@@ -45,4 +45,30 @@ export const addArticle = ({ file, content }) => {
 
     }
 }
+/**
+ * 
+ * 게시글 리스트 가져오기
+ */
+
+const getArticleListRequest = createAction(types.GET_ARTICLE_LIST_REQUEST)
+const getArticleListSuccess = createAction(types.GET_ARTICLE_LIST_SUCCESS)
+export const getArticleListFailed = createAction(types.GET_ARTICLE_LIST_FAILED)
+
+export const getArticleList = (lastItem, count) => {
+    return (dispatch, getState) => {
+        dispatch(getArticleListRequest())
+        articleAPI.getArticleList(lastItem, count)
+            .then((snapshots) => {
+                dispatch(getArticleListSuccess({
+                    list: snapshots.docs,
+                    isConcat: lastItem ? true : false,
+                }))
+            })
+            .catch((error) => {
+                console.log(error)
+                dispatch(getArticleListFailed(error))
+            })
+
+    }
+}
 

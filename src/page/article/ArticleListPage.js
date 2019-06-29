@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Container } from 'semantic-ui-react'
+import ArticleList from '../../component/article/ArticleList'
 
 class ArticleListPage extends Component {
     render() {
@@ -7,7 +8,7 @@ class ArticleListPage extends Component {
             <Container>
                 <Grid centered>
                     <Grid.Column computer={6} tablet={8} mobile={15}>
-                        ArticleListPage
+                        <ArticleList />
                     </Grid.Column>
                 </Grid>
             </Container>
