@@ -72,7 +72,7 @@ color:gray;
 
 
 
-class ArticleListItem extends Component {
+class Article extends Component {
 
     static defaultProps = {
         id: null,
@@ -86,16 +86,6 @@ class ArticleListItem extends Component {
         userId: null,
         userProfileUrl: null,
     }
-
-
-    onClick = () => {
-        if (this.props.onClick) {
-            this.props.onClick(this.props.id);
-        }
-    }
-
-
-
     render() {
 
         const {
@@ -107,16 +97,13 @@ class ArticleListItem extends Component {
             likeCnt,
             commentCnt
         } = this.props;
-        // const datetime = createdAt.toISOString().substring(0, 10);
+
+        console.log(this.props.id)
 
         let datetime = "";
         if (createdAt && createdAt.seconds) {
             datetime = new Date(createdAt.seconds * 1000).toISOString().substring(0, 10);
         }
-
-        // const seconds = createdAt.seconds;
-        // const datetime = new Date(seconds).toISOString().substring(0, 10);
-        // const datetime = typeof (createdAt) === "string" ? createdAt.substring(0, 10) : "";
 
 
         return (
@@ -153,4 +140,4 @@ class ArticleListItem extends Component {
     }
 }
 
-export default ArticleListItem;
+export default Article;

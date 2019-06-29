@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Container } from 'semantic-ui-react'
+import Article from '../../component/article/Article'
+import { withRouter } from 'react-router-dom'
 
 class ArticlePage extends Component {
     render() {
@@ -7,7 +9,8 @@ class ArticlePage extends Component {
             <Container>
                 <Grid centered>
                     <Grid.Column computer={6} tablet={8} mobile={15}>
-                        ArticlePage
+                        <Article
+                            id={this.props.match.params.articleId} />
                     </Grid.Column>
                 </Grid>
             </Container>
@@ -15,4 +18,4 @@ class ArticlePage extends Component {
     }
 }
 
-export default ArticlePage;
+export default withRouter(ArticlePage);

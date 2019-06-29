@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as articleActions from '../../module/article/actions'
 import { Button, Grid } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom'
 
 class ArticleList extends Component {
 
@@ -31,6 +32,10 @@ class ArticleList extends Component {
         this.props.articleActions.getArticleList(lastItem, 1);
     }
 
+    //게시글 아이디를 해야 해당 아이디로 넘어감
+    onItemClick = (id) => {
+        this.props.history.push('/article/' + id);
+    }
 
     render() {
 
@@ -56,6 +61,7 @@ class ArticleList extends Component {
                 userDisplayName={item.userDisplayName}
                 userId={item.userId}
                 userProfileUrl={item.userProfileUrl}
+                onClick={this.onItemClick}
             />
 
         })
@@ -89,4 +95,4 @@ const mapDispatchToProps = (dispatch) => {
         articleActions: bindActionCreators(articleActions, dispatch)
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleList);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ArticleList));
