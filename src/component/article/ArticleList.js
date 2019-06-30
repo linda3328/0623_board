@@ -3,7 +3,7 @@ import ArticleItem from './ArticleItem';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as articleActions from '../../module/article/actions'
-import { Button, Grid } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom'
 
 class ArticleList extends Component {

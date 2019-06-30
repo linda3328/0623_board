@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Icon, Message } from 'semantic-ui-react';
+import { Form, Button, Message } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
