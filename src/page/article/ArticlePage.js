@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Container } from 'semantic-ui-react'
 import Article from '../../component/article/Article'
+import CommentList from '../../component/comment/CommentList'
+
 import { withRouter } from 'react-router-dom'
 
 class ArticlePage extends Component {
@@ -10,6 +12,8 @@ class ArticlePage extends Component {
                 <Grid centered>
                     <Grid.Column computer={6} tablet={8} mobile={15}>
                         <Article
+                            id={this.props.match.params.articleId} />
+                        <CommentList
                             id={this.props.match.params.articleId} />
                     </Grid.Column>
                 </Grid>

@@ -26,6 +26,8 @@ export function addArticle({ file, content, userId, userDisplayName, userProfile
                 commentCnt: 0,
                 createdAt: new Date(),
                 updatedAt: new Date(),
+                displayTimeStamp: new Date().toDateString().substring(0, 10)
+
             });
         })
 }
@@ -59,18 +61,18 @@ export function getArticle(articleId) {
 
 
 export function getCommentList(articleId, lastItem, count) {
-    const limitCount = count || 5;
+    const limitCount = count || 30;
     if (lastItem) {
 
         return firebase.firestore().collection("comments")
-            .where("articleId", articleId)
+            .where("articleId", "==", articleId)
             .orderBy("createdAt", "desc")
             .startAfter(lastItem)
             .limit(limitCount)
             .get()
     } else {
         return firebase.firestore().collection("comments")
-            .where("articleId", articleId)
+            .where("articleId", "==", articleId)
             .orderBy("createdAt", "desc")
             .limit(limitCount)
             .get()
@@ -79,11 +81,12 @@ export function getCommentList(articleId, lastItem, count) {
 }
 
 
-export function addComment(userId, userDisplayName, userProfileUrl, content, articleId) {
+export function addComment({ userId, userDisplayName, userProfileUrl, content, articleId }) {
     const commentId = uuid.v1();
 
 
     return firebase.firestore().collection('comments').doc(commentId).set({
+
         id: commentId,
         articleId,
         userId,
@@ -92,8 +95,20 @@ export function addComment(userId, userDisplayName, userProfileUrl, content, art
         content,
         createdAt: new Date(),
         updatedAt: new Date(),
-        displayTimstamp: new Date().toDateString().substring(0, 10)
-    });
+        displayTimeStamp: new Date().toDateString().substring(0, 10)
+    }).then(() => {
+        return firebase.firestore().collection('articles').doc(articleId).get();
+
+    }).then((articleDoc) => {
+        const curCommentCnt = articleDoc.data().commentCnt;
+        return firebase.firestore().collection('articles').doc(articleId).set({
+
+            commentCnt: curCommentCnt + 1,
+        }, { merge: true })
+    })
+        .then(() => {
+            return firebase.firestore().collection('comments').doc(commentId).get();
+        });
 }
 
 
@@ -107,3 +122,4 @@ export function deleteArticle(articleId) {
 export function deleteComment(commentId) {
     return firebase.firestore().collection('comments').doc(commentId).delete();
 }
+
