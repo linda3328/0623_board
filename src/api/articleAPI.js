@@ -52,7 +52,7 @@ export function getArticleList(lastItem, count) {
 
 }
 
-export function getArticleItem(articleId) {
+export function getArticle(articleId) {
     return firebase.firestore().collection('articles').doc(articleId).get();
 }
 
