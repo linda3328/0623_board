@@ -22,35 +22,59 @@ class Header extends Component {
         this.props.history.push('/add-article')
     }
     render() {
-        return (
-            <Menu>
-                <Menu.Item header>
-                    내 서비스
+        const { user } = this.props;
+        if (user) {
+            return (
+                <Menu>
+                    <Menu.Item header>
+                        내 서비스
+            </Menu.Item>
+                    <Menu.Item onClick={this.goToArticleList}>
+                        게시글 목록
+            </Menu.Item>
+                    <Menu.Item onClick={this.goToAddArticle}>
+                        게시글 추가
+            </Menu.Item>
+
+                    <Menu.Menu position="right">
+
+                        <Menu.Item onClick={this.onSignOut}>
+                            로그아웃
                 </Menu.Item>
-                <Menu.Item onClick={this.goToArticleList}>
-                    게시글 목록
-                </Menu.Item>
-                <Menu.Item onClick={this.goToAddArticle}>
-                    게시글 추가
+                    </Menu.Menu>
+                </Menu>
+            )
+        } else {
+
+            return (
+                <Menu>
+                    <Menu.Item header>
+                        내 서비스
+            </Menu.Item>
+                    <Menu.Item onClick={this.goToArticleList}>
+                        게시글 목록
+            </Menu.Item>
+
+
+                    <Menu.Menu position="right">
+                        <Menu.Item onClick={this.goToSignInPage}>
+                            로그인
                 </Menu.Item>
 
-                <Menu.Menu position="right">
-                    <Menu.Item onClick={this.goToSignInPage}>
-                        로그인
-                    </Menu.Item>
-                    <Menu.Item onClick={this.onSignOut}>
-                        로그아웃
-                    </Menu.Item>
-                </Menu.Menu>
-            </Menu>
-        )
+                    </Menu.Menu>
+                </Menu>
+            )
+        }
+
+
+
     }
 }
 
 const mapStateToProps = (state) => {
     return {
         isLoading: state.auth.signOut.isLoading,
-
+        user: state.auth.user
     }
 }
 
