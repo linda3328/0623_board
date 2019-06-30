@@ -72,7 +72,7 @@ color:gray;
 
 
 
-class ArticleListItem extends Component {
+class ArticleItem extends Component {
 
     static defaultProps = {
         id: null,
@@ -153,4 +153,4 @@ class ArticleListItem extends Component {
     }
 }
 
-export default ArticleListItem;
+export default ArticleItem;
